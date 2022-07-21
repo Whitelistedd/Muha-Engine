@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
-import { Layout } from '../Layout/Layout'
 import { Logo } from '../src/components/Logo/Logo'
 import { SearchBar } from '../src/components/SearchBar/SearchBar'
 
