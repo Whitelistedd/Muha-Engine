@@ -1,12 +1,12 @@
 import styled from 'styled-components'
-import { Profile } from '../ThemeChanger/ThemeChanger'
+import { ThemeChanger } from '../ThemeChanger/ThemeChanger'
 
 export const Navbar: React.FC = () => {
   return (
     <Container>
       <NavbarList>
         <NavbarListItem>
-          <Profile />
+          <ThemeChanger />
         </NavbarListItem>
       </NavbarList>
     </Container>

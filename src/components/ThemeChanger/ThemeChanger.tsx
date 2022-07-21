@@ -6,11 +6,11 @@ import { setTheme } from '../../redux/slices/user'
 import { AppDispatch, useAppSelector } from '../../redux/store/store'
 
 export const ThemeChanger: React.FC = () => {
-  const { themeType } = useAppSelector((state) => state.user)
+  const { ChosenTheme } = useAppSelector((state) => state.user)
   const dispatch = AppDispatch()
 
   const toggleTheme = () => {
-    dispatch(setTheme(themeType === 'light' ? 'dark' : 'light'))
+    dispatch(setTheme(ChosenTheme === 'light' ? 'dark' : 'light'))
   }
 
   return (

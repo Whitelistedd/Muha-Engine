@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState: { themeType: string; searchTerm: string } = {
-  themeType: 'light',
+const initialState: { ChosenTheme: string; searchTerm: string } = {
+  ChosenTheme: 'light',
   searchTerm: '',
 }
 
@@ -15,7 +15,7 @@ const userSlice = createSlice({
       state.searchTerm = action.payload
     },
     setTheme: (state, action) => {
-      state.themeType = action.payload
+      state.ChosenTheme = action.payload
     },
   },
 })
