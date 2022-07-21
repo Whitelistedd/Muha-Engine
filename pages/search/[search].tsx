@@ -23,7 +23,6 @@ const SearchResult: NextPage<{ response: SearchResultProps }> = ({
   response,
 }) => {
   const [results, setResults] = useState<SearchResultProps>()
-  const router = useRouter()
 
   useEffect(() => {
     setResults(response)
