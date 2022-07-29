@@ -2,12 +2,16 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styled from 'styled-components'
+import { handleSearchTerm } from '../../redux/slices/user'
+import { AppDispatch } from '../../redux/store/store'
 
 export const SearchBar: React.FC = ({ className }: { className?: string }) => {
   const router = useRouter()
+  const dispatch = AppDispatch()
   const [searchTerm, setSearchTerm] = useState('')
 
   const handleSearch = () => {
+    dispatch(handleSearchTerm(searchTerm))
     router.push(`/search/${searchTerm}`)
   }
 
@@ -63,6 +67,7 @@ const SearchInput = styled.input`
   border: 0px;
   width: 100%;
   color: black;
+  background-color: transparent;
   &:focus {
     outline: none;
   }
@@ -76,12 +81,13 @@ const Container = styled.div`
   width: 100%;
   max-width: 600px;
   height: 44px;
-  border: 1px solid #dee1e4;
   border-radius: 25px;
   margin-bottom: 200px;
+  background-color: ${({ theme }) => theme.secondaryBackground};
+  box-shadow: 0px 2px 5px #00000056;
   transition: 200ms ease;
 
   &:hover {
-    box-shadow: 0px 0px 5px #00000096;
+    box-shadow: 0px 0px 10px #00000040;
   }
 `

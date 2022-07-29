@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { Logo } from '../Logo/Logo'
-import { ThemeChanger } from '../ThemeChanger/ThemeChanger'
-import { SearchBar } from '../SearchBar/SearchBar'
+import { Logo } from '../../Logo/Logo'
+import { ThemeChanger } from '../../ThemeChanger/ThemeChanger'
+import { SearchBar } from '../../SearchBar/SearchBar'
 
 export const Header: React.FC = () => {
   return (

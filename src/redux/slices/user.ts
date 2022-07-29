@@ -7,18 +7,16 @@ const initialState: { ChosenTheme: string; searchTerm: string } = {
 
 const userSlice = createSlice({
   name: 'user',
-
   initialState,
-
   reducers: {
-    setSearchTerm: (state, action) => {
+    handleSearchTerm: (state, action) => {
       state.searchTerm = action.payload
     },
-    setTheme: (state, action) => {
+    handleTheme: (state, action) => {
       state.ChosenTheme = action.payload
     },
   },
 })
 
-export const { setSearchTerm, setTheme } = userSlice.actions
+export const { handleSearchTerm, handleTheme } = userSlice.actions
 export default userSlice.reducer

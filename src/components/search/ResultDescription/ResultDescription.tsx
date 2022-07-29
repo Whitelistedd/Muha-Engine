@@ -20,15 +20,17 @@ export const ResultDescription: React.FC<ResultDescriptionProps> = ({
 
 const Description = styled.p`
   font-size: 0.9em;
+  color: ${({ theme }) => theme.secondaryFontColor};
 `
 
 const Title = styled.h2`
-  color: #3e40b1;
+  color: ${({ theme }) => theme.primaryFontColor};
   font-size: 1.3em;
 `
 
 const Website = styled.p`
   font-size: 0.9em;
+  color: ${({ theme }) => theme.secondaryFontColor};
 `
 
 const Wrap = styled.div`

@@ -1,65 +1,87 @@
-import { GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
-import { getSearchResults } from '../../src/apiCalls/apiCalls'
-import { Header } from '../../src/components/Header/Header'
-import { ResultDescription } from '../../src/components/ResultDescription/ResultDescription'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
-interface SearchResultProps {
+import { getSearchResults } from '../../src/apiCalls/apiCalls'
+import { Header } from '../../src/components/search/Header/Header'
+import { ResultDescription } from '../../src/components/search/ResultDescription/ResultDescription'
+import { useRouter } from 'next/router'
+
+interface InfiniteSearchType {
+  queries: {
+    nextPage: { startIndex: number }[]
+  }
+  prevPage: { start: number }
   searchInformation: {
     formattedTotalResults: string
     searchTime: string
   }
-  items: Array<{
+  items: {
     title: string
     link: string
     snippet: string
-  }>
+  }[]
 }
 
-const SearchResult: NextPage<{ response: SearchResultProps }> = ({
-  response,
-}) => {
-  const [results, setResults] = useState<SearchResultProps>()
+const SearchResult: NextPage = () => {
+  const searchTerm = useRouter().query.search as string
+
+  const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<
+    InfiniteSearchType,
+    Error
+  >(['googleResults', searchTerm], getSearchResults, {
+    getNextPageParam: (lastPage) => lastPage?.queries?.nextPage[0]?.startIndex,
+    getPreviousPageParam: (firstPage) => firstPage?.prevPage?.start,
+  })
 
   useEffect(() => {
-    setResults(response)
-  }, [response])
+    let fetching = false
+    const onScroll = async (event) => {
+      const { scrollHeight, scrollTop, clientHeight } =
+        event.target.scrollingElement
+
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+        fetching = true
+        if (hasNextPage) await fetchNextPage()
+        fetching = false
+      }
+    }
+
+    document.addEventListener('scroll', onScroll)
+    return () => {
+      document.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
+  console.log(data)
 
   return (
     <Container>
       <Head>
-        <title>- Google</title>
+        <title>{searchTerm} - Google</title>
       </Head>
       <Header />
       <Wrap>
         <ResutsDetails>
           Результатов: примерно{' '}
-          {results?.searchInformation?.formattedTotalResults} (
-          {results?.searchInformation?.searchTime} сек.)
+          {data?.pages[0]?.searchInformation?.formattedTotalResults} (
+          {data?.pages[0]?.searchInformation?.searchTime} сек.)
         </ResutsDetails>
-        {results?.items?.map((item) => (
-          <ResultDescription
-            key={item.link}
-            site={item.link}
-            title={item.title}
-            description={item.snippet}
-          />
-        ))}
+        {data?.pages.map((page) =>
+          page?.items?.map((item) => (
+            <ResultDescription
+              key={item.link}
+              site={item.link}
+              title={item.title}
+              description={item.snippet}
+            />
+          ))
+        )}
       </Wrap>
     </Container>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const searchTerm = context?.params?.search as string
-  const response = await getSearchResults(searchTerm)
-  return {
-    props: {
-      response,
-    },
-  }
 }
 
 const ResutsDetails = styled.p`
@@ -78,6 +100,7 @@ const Container = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: ${({ theme }) => theme.background};
   gap: 1em;
 `
 

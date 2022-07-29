@@ -13,7 +13,7 @@ const Location = styled.div``
 const Container = styled.div`
   color: grey;
   height: 45px;
-  background-color: #f3f2f3;
+  background-color: ${({ theme }) => theme.background};
   padding: 1em;
   display: flex;
 `
