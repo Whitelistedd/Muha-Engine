@@ -38,9 +38,9 @@ const SearchResult: NextPage = () => {
 
   useEffect(() => {
     let fetching = false
-    const onScroll = async (event) => {
-      const { scrollHeight, scrollTop, clientHeight } =
-        event.target.scrollingElement
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const onScroll = async (event: any) => {
+      const { scrollHeight, scrollTop, clientHeight } = event.currentTarget
 
       if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
         fetching = true
