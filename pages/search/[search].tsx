@@ -34,13 +34,15 @@ const SearchResult: NextPage = () => {
   >(['googleResults', searchTerm], getSearchResults, {
     getNextPageParam: (lastPage) => lastPage?.queries?.nextPage[0]?.startIndex,
     getPreviousPageParam: (firstPage) => firstPage?.prevPage?.start,
+    refetchOnWindowFocus: false,
   })
 
   useEffect(() => {
     let fetching = false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onScroll = async (event: any) => {
-      const { scrollHeight, scrollTop, clientHeight } = event.currentTarget
+      const { scrollHeight, scrollTop, clientHeight } =
+        event.target.scrollingElement
 
       if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
         fetching = true
@@ -54,8 +56,6 @@ const SearchResult: NextPage = () => {
       document.removeEventListener('scroll', onScroll)
     }
   }, [])
-
-  console.log(data)
 
   return (
     <Container>
