@@ -102,6 +102,24 @@ const Container = styled.div`
   flex-direction: column;
   background-color: ${({ theme }) => theme.background};
   gap: 1em;
+
+  @media only screen and (max-width: 1128px) {
+    ${Wrap} {
+      padding-left: 5em;
+    }
+  }
+  @media only screen and (max-width: 950px) {
+    ${Wrap} {
+      padding: 0em 1em;
+    }
+  }
+
+  @media only screen and (max-width: 550px) {
+    ${Wrap} {
+      padding: 0em 1em;
+      width: 100%;
+    }
+  }
 `
 
 export default SearchResult

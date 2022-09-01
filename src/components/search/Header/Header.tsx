@@ -29,4 +29,8 @@ const Container = styled.div`
   width: 100%;
   gap: 2em;
   padding: 2.5em;
+
+  @media only screen and (max-width: 610px) {
+    padding: 0.5em;
+  }
 `

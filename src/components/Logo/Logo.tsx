@@ -26,6 +26,7 @@ const Container = styled.div`
   font-size: 4.5em;
   font-weight: 700;
   width: 300px;
+  max-width: 300px;
   font-family: 'Roboto';
 
   &:hover {

@@ -15,8 +15,8 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       <Wrap>
-        <Logo />
-        <SearchBar />
+        <HomeLogo />
+        <HomeSearch />
       </Wrap>
     </Container>
   )
@@ -29,7 +29,12 @@ const Wrap = styled.div`
   justify-content: center;
   height: 100%;
   gap: 2em;
+  margin: 10px;
 `
+
+const HomeLogo = styled(Logo)``
+
+const HomeSearch = styled(SearchBar)``
 
 const Container = styled.div`
   min-height: calc(100vh - 45px);
@@ -39,6 +44,15 @@ const Container = styled.div`
   justify-content: center;
   background-color: ${({ theme }) => theme.background};
   box-sizing: border-box;
+
+  @media only screen and (max-width: 650px) {
+    ${HomeLogo} {
+      width: 60%;
+    }
+    ${HomeSearch} {
+      max-width: 400px;
+    }
+  }
 `
 
 export default Home

@@ -30,6 +30,8 @@ const Title = styled.h2`
 
 const Website = styled.p`
   font-size: 0.9em;
+  text-overflow: ellipsis;
+  overflow: hidden;
   color: ${({ theme }) => theme.secondaryFontColor};
 `
 
@@ -44,6 +46,17 @@ const Wrap = styled.div`
     ${Title} {
       text-decoration: underline;
     }
+  }
+
+  @media only screen and (max-width: 1128px) {
+    width: 70%;
+  }
+  @media only screen and (max-width: 950px) {
+    width: 100%;
+    background-color: ${({ theme }) => theme.secondaryBackground};
+    padding: 1em;
+    border-radius: 10px;
+    font-size: 13px;
   }
 `
 

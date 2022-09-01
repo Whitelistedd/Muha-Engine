@@ -9,7 +9,7 @@ export const theme: themeType = {
     background: '#212125',
     secondaryBackground: '#3A3A3A',
     primaryFontColor: '#7DB5F8',
-    secondaryFontColor: 'grey',
+    secondaryFontColor: 'white',
   },
 }
 

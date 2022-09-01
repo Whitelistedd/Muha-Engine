@@ -82,7 +82,7 @@ const Container = styled.div`
   max-width: 600px;
   height: 44px;
   border-radius: 25px;
-  margin-bottom: 200px;
+  margin: 0px 0px 200px 0px;
   background-color: ${({ theme }) => theme.secondaryBackground};
   box-shadow: 0px 2px 5px #00000056;
   transition: 200ms ease;

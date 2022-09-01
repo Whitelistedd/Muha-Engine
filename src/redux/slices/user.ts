@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: { ChosenTheme: string; searchTerm: string } = {
-  ChosenTheme: 'light',
+  ChosenTheme: 'dark',
   searchTerm: '',
 }
 
