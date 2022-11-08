@@ -1,12 +1,12 @@
-import { NextPage } from 'next'
+import { useCallback, useRef, useState } from 'react'
+
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { Header } from 'components/search/Header/Header'
+import { NextPage } from 'next'
+import { ResultDescription } from 'components/search/ResultDescription/ResultDescription'
+import { getSearchResults } from 'apiCalls/apiCalls'
 import styled from 'styled-components'
 import { useInfiniteQuery } from '@tanstack/react-query'
-
-import { getSearchResults } from '../../src/apiCalls/apiCalls'
-import { Header } from '../../src/components/search/Header/Header'
-import { ResultDescription } from '../../src/components/search/ResultDescription/ResultDescription'
 import { useRouter } from 'next/router'
 
 interface InfiniteSearchType {
@@ -27,17 +27,38 @@ interface InfiniteSearchType {
 
 const SearchResult: NextPage = () => {
   const searchTerm = useRouter().query.search as string
+  const [loading, setLoading] = useState(false)
 
   const { data, hasNextPage, fetchNextPage } = useInfiniteQuery<
     InfiniteSearchType,
     Error
   >(['googleResults', searchTerm], getSearchResults, {
-    getNextPageParam: (lastPage) => lastPage?.queries?.nextPage[0]?.startIndex,
+    getNextPageParam: (lastPage) =>
+      lastPage?.queries?.nextPage?.[0]?.startIndex,
     getPreviousPageParam: (firstPage) => firstPage?.prevPage?.start,
     refetchOnWindowFocus: false,
   })
 
-  useEffect(() => {
+  const observer = useRef()
+
+  const lastDataElement = useCallback(
+    async (node: unknown) => {
+      console.log(loading)
+      if (loading) return
+      if (observer.current) observer.current?.disconnect()
+      observer.current = new IntersectionObserver(async (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          setLoading(true)
+          if (hasNextPage) await fetchNextPage()
+          setLoading(false)
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [loading, hasNextPage]
+  )
+
+  /* useEffect(() => {
     let fetching = false
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const onScroll = async (event: any) => {
@@ -55,7 +76,9 @@ const SearchResult: NextPage = () => {
     return () => {
       document.removeEventListener('scroll', onScroll)
     }
-  }, [])
+  }, []) */
+
+  console.log(data)
 
   return (
     <Container>
@@ -70,14 +93,26 @@ const SearchResult: NextPage = () => {
           {data?.pages[0]?.searchInformation?.searchTime} сек.)
         </ResutsDetails>
         {data?.pages.map((page) =>
-          page?.items?.map((item) => (
-            <ResultDescription
-              key={item.link}
-              site={item.link}
-              title={item.title}
-              description={item.snippet}
-            />
-          ))
+          page?.items?.map((item, index) =>
+            page.items.length === index + 1 ? (
+              <div ref={lastDataElement}>
+                {console.log(item.title)}
+                <ResultDescription
+                  key={item.link}
+                  site={item.link}
+                  title={item.title}
+                  description={item.snippet}
+                />
+              </div>
+            ) : (
+              <ResultDescription
+                key={item.link}
+                site={item.link}
+                title={item.title}
+                description={item.snippet}
+              />
+            )
+          )
         )}
       </Wrap>
     </Container>

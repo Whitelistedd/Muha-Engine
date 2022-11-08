@@ -1,15 +1,16 @@
-import styled from 'styled-components'
-import { ResultDescriptionProps } from './ResultDescription.model'
 import Link from 'next/link'
+import { ResultDescriptionProps } from './ResultDescription.model'
+import styled from 'styled-components'
 
 export const ResultDescription: React.FC<ResultDescriptionProps> = ({
   site,
   title,
+  ref,
   description,
 }) => {
   return (
     <Container href={site}>
-      <Wrap>
+      <Wrap ref={ref ? ref : null}>
         <Website>{site}</Website>
         <Title>{title}</Title>
         <Description>{description}</Description>

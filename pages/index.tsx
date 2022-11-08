@@ -1,9 +1,9 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
-import styled from 'styled-components'
-import { Header } from '../src/components/Home/Header/Header'
+import { Header } from '../src/components/Header/Header'
 import { Logo } from '../src/components/Logo/Logo'
+import type { NextPage } from 'next'
 import { SearchBar } from '../src/components/SearchBar/SearchBar'
+import styled from 'styled-components'
 
 const Home: NextPage = () => {
   return (

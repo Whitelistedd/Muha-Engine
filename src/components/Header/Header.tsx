@@ -1,5 +1,5 @@
+import { ThemeChanger } from 'components/ThemeChanger/ThemeChanger'
 import styled from 'styled-components'
-import { ThemeChanger } from '../../ThemeChanger/ThemeChanger'
 
 export const Header: React.FC = () => {
   return (
